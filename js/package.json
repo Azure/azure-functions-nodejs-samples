@@ -8,7 +8,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0-alpha.11"
+    "@azure/functions": "^4.0.0-alpha.12"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
