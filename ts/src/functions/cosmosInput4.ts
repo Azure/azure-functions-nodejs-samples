@@ -7,8 +7,10 @@ const cosmosInput = input.cosmosDB({
     connectionStringSetting: 'CosmosDBConnection',
 });
 
+interface MyDocument {}
+
 export async function storageQueueTrigger1(queueItem: unknown, context: InvocationContext): Promise<void> {
-    const documents = context.extraInputs.get(cosmosInput);
+    const documents = <MyDocument[]>context.extraInputs.get(cosmosInput);
     for (const document of documents) {
         // operate on each document
     }

@@ -1,0 +1,18 @@
+{
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [],
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "rules": {
+        "prefer-const": ["error", { "destructuring": "all" }],
+        "no-return-await": "off",
+        "eqeqeq": "error",
+        "no-unused-vars": "off"
+    },
+    "ignorePatterns": []
+}
