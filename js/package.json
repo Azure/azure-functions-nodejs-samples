@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "lint": "eslint . --fix",
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0-alpha.7"
+    "@azure/functions": "^4.0.0-alpha.11"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1"
+  },
   "main": "src/functions/httpTrigger1.js"
 }

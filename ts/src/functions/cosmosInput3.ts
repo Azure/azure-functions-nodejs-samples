@@ -8,8 +8,12 @@ const cosmosInput = input.cosmosDB({
     connectionStringSetting: 'CosmosDBConnection',
 });
 
+interface ToDoDocument {
+    description: string;
+}
+
 export async function httpTrigger1(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
-    const toDoItem = context.extraInputs.get(cosmosInput);
+    const toDoItem = <ToDoDocument>context.extraInputs.get(cosmosInput);
     if (!toDoItem) {
         return {
             status: 404,
@@ -17,7 +21,7 @@ export async function httpTrigger1(request: HttpRequest, context: InvocationCont
         };
     } else {
         return {
-            body: `Found ToDo item, Description=${toDoItem.Description}`,
+            body: `Found ToDo item, Description=${toDoItem.description}`,
         };
     }
 }

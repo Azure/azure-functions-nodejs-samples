@@ -16,8 +16,12 @@ const cosmosOutput = output.cosmosDB({
     connectionStringSetting: 'MyAccount_COSMOSDB',
 });
 
+interface MyDocument {
+    text: string;
+}
+
 export async function storageQueueTrigger1(queueItem: unknown, context: InvocationContext): Promise<void> {
-    const doc = context.extraInputs.get(cosmosInput);
+    const doc = <MyDocument>context.extraInputs.get(cosmosInput);
     doc.text = 'This was updated!';
     context.extraOutputs.set(cosmosOutput, doc);
 }
