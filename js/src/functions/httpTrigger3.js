@@ -1,7 +1,7 @@
 const { app, input } = require('@azure/functions');
 
-const tableInput = input.generic({
-    type: 'table',
+const tableInput = input.table({
+    connection: 'MyStorageConnectionAppSetting',
     partitionKey: 'products',
     tableName: 'products',
     rowKey: '{id}',
