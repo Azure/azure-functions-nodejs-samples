@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponseInit, InvocationContext, app, output } from '@azure/functions';
+import { app, HttpRequest, HttpResponseInit, InvocationContext, output } from '@azure/functions';
 
 const tableOutput = output.table({
     tableName: 'Person',
