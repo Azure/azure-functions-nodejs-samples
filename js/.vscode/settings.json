@@ -6,6 +6,6 @@
     "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.projectLanguageModel": 4,
     "azureFunctions.preDeployTask": "npm prune (functions)",
-    "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
+    "editor.codeActionsOnSave": ["source.fixAll"],
     "editor.formatOnSave": true
 }
