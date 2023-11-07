@@ -6,13 +6,23 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "plugins": [],
+    "plugins": ["simple-import-sort", "import"],
     "extends": ["eslint:recommended", "plugin:prettier/recommended"],
     "rules": {
         "prefer-const": ["error", { "destructuring": "all" }],
         "no-return-await": "off",
         "eqeqeq": "error",
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "simple-import-sort/imports": [
+            "error",
+            {
+                "groups": [["^\\u0000", "^node:", "^@?\\w", "^", "^\\."]]
+            }
+        ],
+        "simple-import-sort/exports": "error",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error"
     },
     "ignorePatterns": []
 }
