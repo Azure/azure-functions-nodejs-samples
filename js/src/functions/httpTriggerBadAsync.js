@@ -1,4 +1,4 @@
-// NOT RECOMMENDED PATTERN
+// DO NOT USE THIS CODE
 const { app } = require('@azure/functions');
 const fs = require('fs');
 

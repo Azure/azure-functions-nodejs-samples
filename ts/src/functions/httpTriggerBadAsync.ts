@@ -1,4 +1,4 @@
-// NOT RECOMMENDED PATTERN
+// DO NOT USE THIS CODE
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/functions';
 import * as fs from 'fs';
 
