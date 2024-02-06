@@ -7,5 +7,6 @@
     "azureFunctions.projectLanguageModel": 4,
     "azureFunctions.preDeployTask": "npm prune (functions)",
     "editor.codeActionsOnSave": ["source.fixAll"],
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
