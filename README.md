@@ -1,6 +1,6 @@
 # Azure Functions Node.js Samples
 
-[![Build Status](https://img.shields.io/azure-devops/build/azfunc/Azure%2520Functions/269/main)](https://azfunc.visualstudio.com/Azure%20Functions/_build/latest?definitionId=269&branchName=main)
+[![Build Status](https://img.shields.io/azure-devops/build/azfunc/public/505/main)](https://azfunc.visualstudio.com/public/_build/latest?definitionId=505&branchName=main)
 
 This repo is used to hold the samples for the "Triggers and bindings" docs. For example, this [storage queue trigger doc](https://learn.microsoft.com/azure/azure-functions/functions-bindings-storage-queue-trigger?pivots=programming-language-javascript). This repo currently supports programming model v4, for both JavaScript and TypeScript.
 
