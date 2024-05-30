@@ -1,0 +1,58 @@
+# This build is used for public PR and CI builds.
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+
+pr:
+  branches:
+    include:
+    - main
+
+resources:
+  repositories:
+  - repository: 1es
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+
+extends:
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1es
+  parameters:
+    pool:
+      name: 1es-pool-azfunc-public
+      image: 1es-windows-2022
+      os: windows
+
+    stages:
+    - stage: Build
+      jobs:
+      - job: Build
+        strategy:
+          matrix:
+            NODE18:
+              NODE_VERSION: '18.x'
+            NODE20:
+              NODE_VERSION: '20.x'
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: $(NODE_VERSION)
+          displayName: 'Install Node.js'
+        - script: npm ci
+          displayName: 'npm ci (ts)'
+          workingDirectory: 'ts'
+        - script: npm run build
+          displayName: 'npm run build (ts)'
+          workingDirectory: 'ts'
+        - script: npm run lint
+          displayName: 'npm run lint (ts)'
+          workingDirectory: 'ts'
+        - script: npm ci
+          displayName: 'npm ci (js)'
+          workingDirectory: 'js'
+        - script: npm run lint
+          displayName: 'npm run lint (js)'
+          workingDirectory: 'js'
