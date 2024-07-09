@@ -20,7 +20,7 @@ These are the most important GitHub repositories that make up the Node.js experi
 - Clone the repository locally and open the `js` or `ts` folder in VS Code
 - Run "Extensions: Show Recommended Extensions" from the [command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) and install all extensions listed under "Workspace Recommendations"
 - Run `npm install`
-- If using TypeScript, fun `npm run build`
+- If using TypeScript, run `npm run build`
 
 The apps in this repository are not setup to be run directly. You should validate your code in a separate app.
 
