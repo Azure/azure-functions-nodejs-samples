@@ -1,7 +1,5 @@
-import { app, LogLevel } from '@azure/functions';
+import { AzureFunctionsInstrumentation } from '@azure/functions-opentelemetry-instrumentation';
 import { AzureMonitorLogExporter, AzureMonitorTraceExporter } from '@azure/monitor-opentelemetry-exporter';
-import { context as otelContext, propagation } from '@opentelemetry/api';
-import { SeverityNumber } from '@opentelemetry/api-logs';
 import { getNodeAutoInstrumentations, getResourceDetectors } from '@opentelemetry/auto-instrumentations-node';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { detectResourcesSync } from '@opentelemetry/resources';
@@ -17,46 +15,8 @@ tracerProvider.register();
 const loggerProvider = new LoggerProvider({ resource });
 loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(new AzureMonitorLogExporter()));
 
-registerInstrumentations({ tracerProvider, loggerProvider, instrumentations: [getNodeAutoInstrumentations()] });
-
-// NOTE: The below code will soon be a part of a new package `@opentelemetry/instrumentation-azure-functions`
-// See here for more info: https://github.com/Azure/azure-functions-nodejs-library/issues/245
-app.setup({ capabilities: { WorkerOpenTelemetryEnabled: true } });
-
-const logger = loggerProvider.getLogger('default');
-app.hook.log((context) => {
-    logger.emit({
-        body: context.message,
-        severityNumber: toOtelSeverityNumber(context.level),
-        severityText: context.level,
-    });
+registerInstrumentations({
+    tracerProvider,
+    loggerProvider,
+    instrumentations: [getNodeAutoInstrumentations(), new AzureFunctionsInstrumentation()],
 });
-
-app.hook.preInvocation((context) => {
-    context.functionHandler = otelContext.bind(
-        propagation.extract(otelContext.active(), {
-            traceparent: context.invocationContext.traceContext.traceParent,
-            tracestate: context.invocationContext.traceContext.traceState,
-        }),
-        context.functionHandler
-    );
-});
-
-function toOtelSeverityNumber(level: LogLevel): SeverityNumber {
-    switch (level) {
-        case 'information':
-            return SeverityNumber.INFO;
-        case 'debug':
-            return SeverityNumber.DEBUG;
-        case 'error':
-            return SeverityNumber.ERROR;
-        case 'trace':
-            return SeverityNumber.TRACE;
-        case 'warning':
-            return SeverityNumber.WARN;
-        case 'critical':
-            return SeverityNumber.FATAL;
-        default:
-            return SeverityNumber.UNSPECIFIED;
-    }
-}
