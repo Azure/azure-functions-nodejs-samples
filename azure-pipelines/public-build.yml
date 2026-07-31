@@ -61,18 +61,50 @@ extends:
                 inputs:
                   versionSpec: $(NODE_VERSION)
                 displayName: "Install Node.js"
+
+              # Keep authenticated feed configuration outside the customer-facing sample directories.
+              - pwsh: |
+                  $npmrcPath = Join-Path '$(Agent.TempDirectory)' 'cfs.npmrc'
+                  @(
+                    'registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@azure:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@fastify:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@grpc:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@js-sdsl:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@opentelemetry:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@protobufjs:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                    '@types:registry=https://pkgs.dev.azure.com/azfunc/public/_packaging/upstream-public/npm/registry/'
+                  ) | Set-Content -LiteralPath $npmrcPath -Encoding ascii
+                  Write-Host "##vso[task.setvariable variable=CFS_NPMRC]$npmrcPath"
+                displayName: "Configure Central Feed Service"
+
+              - task: npmAuthenticate@0
+                inputs:
+                  workingFile: "$(CFS_NPMRC)"
+                displayName: "Authenticate npm"
+
               - script: npm ci
                 displayName: "npm ci (ts)"
                 workingDirectory: "ts"
+                env:
+                  NPM_CONFIG_USERCONFIG: "$(CFS_NPMRC)"
               - script: npm run build
                 displayName: "npm run build (ts)"
                 workingDirectory: "ts"
+                env:
+                  NPM_CONFIG_USERCONFIG: "$(CFS_NPMRC)"
               - script: npm run lint
                 displayName: "npm run lint (ts)"
                 workingDirectory: "ts"
+                env:
+                  NPM_CONFIG_USERCONFIG: "$(CFS_NPMRC)"
               - script: npm ci
                 displayName: "npm ci (js)"
                 workingDirectory: "js"
+                env:
+                  NPM_CONFIG_USERCONFIG: "$(CFS_NPMRC)"
               - script: npm run lint
                 displayName: "npm run lint (js)"
                 workingDirectory: "js"
+                env:
+                  NPM_CONFIG_USERCONFIG: "$(CFS_NPMRC)"
